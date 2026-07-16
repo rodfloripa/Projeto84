@@ -2,7 +2,6 @@
 # Geração de Cenários Probabilísticos com Rede Neural Bayesiana e Normalizing Flow
 
 <p align="justify">
-
 Enquanto o **Projeto 78** utilizou **BSTS (Bayesian Structural Time Series)** para explicabilidade de séries temporais e inferência causal, este projeto adota uma abordagem baseada em **Redes Neurais Bayesianas (Bayesian Neural Networks - BNN)** combinadas com **Normalizing Flow** para geração de cenários probabilísticos de demanda.
 
 O objetivo deixa de ser explicar o comportamento passado da série temporal e passa a ser prever possíveis comportamentos futuros considerando a incerteza inerente aos dados. A Rede Neural Bayesiana modela a incerteza dos parâmetros do modelo, enquanto o Normalizing Flow aprende distribuições complexas dos erros de previsão, permitindo representar demandas assimétricas, multimodais e com caudas pesadas.
