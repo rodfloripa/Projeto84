@@ -1,8 +1,8 @@
 
-#  Geração de Cenários Probabilísticos com Rede Neural Bayesiana e Normalizing Flow
+# P84 - Geração de Cenários Probabilísticos com Rede Neural Bayesiana e Normalizing Flow
 
 <p align="justify">
-Enquanto o <b>Projeto 78</b> utilizou <b>BSTS (Bayesian Structural Time Series)</b> para explicabilidade de séries temporais e inferência causal, este projeto adota uma abordagem baseada em <b>Redes Neurais Bayesianas (Bayesian Neural Networks - BNN)</b> combinadas com <b>Normalizing Flow</b> para geração de cenários probabilísticos de demanda. O objetivo deixa de ser explicar o comportamento passado da série temporal e passa a ser prever possíveis comportamentos futuros considerando a incerteza inerente aos dados. A Rede Neural Bayesiana modela a incerteza dos parâmetros do modelo, enquanto o Normalizing Flow aprende distribuições complexas dos erros da previsão, permitindo representar demandas assimétricas, multimodais e com caudas pesadas.
+Este projeto implementa uma solução para geração de cenários probabilísticos de demanda utilizando uma <b>Rede Neural Bayesiana (Bayesian Neural Network - BNN)</b> combinada com <b>Normalizing Flow</b>. Diferentemente de modelos tradicionais que produzem apenas uma previsão pontual, esta abordagem estima toda a distribuição de probabilidade da demanda futura, permitindo calcular intervalos de confiança, percentis e riscos associados às previsões. Dessa forma, o modelo fornece informações mais completas para apoiar decisões relacionadas a planejamento de estoques, compras, logística e estratégias comerciais.
 </p>
 
 ---
@@ -10,7 +10,7 @@ Enquanto o <b>Projeto 78</b> utilizou <b>BSTS (Bayesian Structural Time Series)<
 # 1. Objetivo
 
 <p align="justify">
-Este projeto implementa uma Rede Neural Bayesiana integrada a um modelo de <b>Normalizing Flow</b> para gerar distribuições probabilísticas completas da demanda futura. Em vez de produzir apenas um único valor previsto, o modelo estima toda a distribuição de probabilidade das vendas, permitindo construir diferentes cenários, calcular percentis, estimar riscos operacionais e apoiar decisões relacionadas a estoque, compras e planejamento comercial.
+O objetivo deste projeto é desenvolver um modelo probabilístico capaz de aprender relações não lineares entre variáveis explicativas e demanda, produzindo distribuições completas das previsões em vez de apenas um único valor esperado. A partir dessas distribuições é possível gerar diferentes cenários, calcular probabilidades, estimar riscos e fornecer informações para a tomada de decisão em ambientes sujeitos à incerteza.
 </p>
 
 ---
@@ -18,7 +18,7 @@ Este projeto implementa uma Rede Neural Bayesiana integrada a um modelo de <b>No
 # 2. Arquitetura da Solução
 
 <p align="justify">
-A arquitetura é composta por uma Rede Neural Bayesiana responsável por aprender relações não lineares entre as variáveis de entrada e a demanda. Em seguida, um Normalizing Flow transforma uma distribuição simples em uma distribuição probabilística muito mais flexível, permitindo representar comportamentos que dificilmente seriam modelados por distribuições gaussianas tradicionais.
+A solução é composta por duas etapas principais. A primeira utiliza uma Rede Neural Bayesiana para aprender as relações existentes entre as variáveis de entrada e a demanda. A segunda aplica um Normalizing Flow para modelar distribuições complexas dos resíduos da previsão, permitindo representar comportamentos assimétricos, multimodais e com caudas pesadas.
 </p>
 
 ```text
@@ -28,7 +28,7 @@ Variáveis de Entrada
 Rede Neural Bayesiana
         │
         ▼
-Estimativa da Demanda
+Estimativa Inicial
         │
         ▼
 Normalizing Flow
@@ -42,29 +42,30 @@ P10 • P50 • P90
 
 ---
 
-# 3. BSTS vs BNN + Normalizing Flow
+# 3. Dados de Entrada
 
 <p align="justify">
-Embora ambos sejam modelos probabilísticos, eles possuem objetivos bastante diferentes. O BSTS foi desenvolvido para explicar séries temporais e medir efeitos causais, enquanto a BNN com Normalizing Flow foi desenvolvida para gerar previsões probabilísticas em larga escala.
+O modelo recebe um conjunto de variáveis explicativas capazes de influenciar o comportamento da demanda. Esses atributos são utilizados durante o treinamento para que a Rede Neural Bayesiana aprenda padrões complexos e gere previsões probabilísticas mais precisas.
 </p>
 
-| Característica | BSTS | BNN + Normalizing Flow |
-|----------------|------|------------------------|
-| Pergunta principal | Qual o efeito da campanha? | Qual a distribuição da demanda? |
-| Tipo de modelo | Modelo estatístico estruturado | Rede Neural Bayesiana |
-| Tratamento temporal | Tendência + sazonalidade + regressão | Necessita atributos temporais |
-| Incerteza | Inferência Bayesiana | Pesos Bayesianos + Flow |
-| Escalabilidade | Poucas séries | Milhares de séries |
-| Inferência causal | Sim | Não |
-| Distribuições complexas | Limitado | Excelente |
-| Aplicação | Explicabilidade | Previsão probabilística |
+| Preço | Gasto com Ads | Temperatura | É Feriado | Vendas |
+|------:|--------------:|------------:|:---------:|--------:|
+| 99,90 | 1200 | 28 | Sim | 245 |
+| 109,90 | 850 | 24 | Não | 187 |
+| 89,90 | 1600 | 31 | Sim | 302 |
+| 119,90 | 600 | 22 | Não | 161 |
+| 95,90 | 1350 | 29 | Sim | 274 |
+
+<p align="justify">
+Além das variáveis apresentadas no exemplo, o modelo pode incorporar outras informações relevantes, como dia da semana, promoções, preço da concorrência, sazonalidade, clima, indicadores econômicos, estoque disponível, tráfego do site e quaisquer atributos que contribuam para melhorar a qualidade das previsões.
+</p>
 
 ---
 
 # 4. Funcionamento do Modelo
 
 <p align="justify">
-Inicialmente os dados são normalizados para facilitar o treinamento da Rede Neural Bayesiana. A rede estima uma distribuição para seus pesos em vez de valores determinísticos, permitindo representar a incerteza do modelo. Posteriormente, o Normalizing Flow aprende uma transformação probabilística capaz de representar distribuições complexas dos resíduos da previsão. Como resultado, o modelo produz uma distribuição completa da demanda futura em vez de apenas uma previsão pontual.
+Inicialmente os dados são normalizados para facilitar o treinamento da Rede Neural Bayesiana. Em seguida, a rede estima distribuições para seus pesos em vez de valores fixos, representando a incerteza do modelo. Posteriormente, o Normalizing Flow transforma uma distribuição probabilística simples em uma distribuição muito mais flexível, capaz de representar diferentes formatos observados na demanda real. Ao final do processo, o modelo gera uma distribuição completa das vendas futuras, possibilitando calcular percentis, intervalos de confiança e probabilidades de ocorrência de diferentes cenários.
 </p>
 
 ---
@@ -72,7 +73,7 @@ Inicialmente os dados são normalizados para facilitar o treinamento da Rede Neu
 # 5. Principais Trechos do Código
 
 <p align="justify">
-Definição dos dados de entrada.
+Definição dos dados utilizados pelo modelo.
 </p>
 
 ```python
@@ -90,7 +91,7 @@ mu = at.flatten(at.dot(hidden2, w3) + b3)
 ```
 
 <p align="justify">
-Aplicação do Normalizing Flow.
+Aplicação do Normalizing Flow para modelagem da distribuição da demanda.
 </p>
 
 ```python
@@ -110,7 +111,7 @@ obs = pm.NormalizingFlow(
 ```
 
 <p align="justify">
-Geração dos cenários probabilísticos.
+Geração das previsões probabilísticas.
 </p>
 
 ```python
@@ -122,18 +123,18 @@ ppc = pm.sample_posterior_predictive(
 
 ---
 
-# 6. Cenários Gerados
+# 6. Cenários Simulados
 
 <p align="justify">
-Após o treinamento do modelo são simulados diferentes cenários de demanda. Neste projeto foram utilizados um cenário base, um cenário otimista e um cenário pessimista. Para cada situação são calculados percentis como P10, P50 e P90, permitindo estimar riscos, intervalos prováveis de vendas e probabilidades de ruptura ou excesso de estoque.
+Após o treinamento são gerados diferentes cenários de demanda, como cenário base, otimista e pessimista. Para cada situação são calculados percentis da distribuição prevista, como P10, P50 e P90, permitindo estimar intervalos prováveis de vendas, probabilidades de ruptura de estoque e níveis de risco associados a diferentes estratégias comerciais.
 </p>
 
 ---
 
-# 7. Quando Utilizar BNN + Normalizing Flow
+# 7. Aplicações
 
 <p align="justify">
-Esta abordagem é indicada quando existe grande volume de dados históricos, milhares de produtos, múltiplas lojas ou diversas variáveis explicativas. Também é adequada quando o objetivo é produzir previsões probabilísticas para apoiar decisões de compras, planejamento de estoque, logística, simulação de cenários e análise de risco operacional.
+A abordagem pode ser aplicada em problemas de previsão de demanda, planejamento de estoques, definição de níveis de segurança, compras, logística, planejamento comercial, análise de risco, simulação de cenários e suporte à tomada de decisão. Sua capacidade de representar distribuições probabilísticas completas permite avaliar diferentes possibilidades futuras em vez de depender exclusivamente de uma previsão pontual.
 </p>
 
 ---
@@ -141,7 +142,7 @@ Esta abordagem é indicada quando existe grande volume de dados históricos, mil
 # 8. Resultado
 
 <p align="justify">
-A figura abaixo apresenta um exemplo das distribuições probabilísticas geradas para os diferentes cenários simulados, permitindo comparar a dispersão da demanda prevista, os intervalos de confiança e os níveis de risco associados a cada estratégia avaliada.
+A figura abaixo apresenta um exemplo das distribuições probabilísticas geradas pelo modelo para diferentes cenários de demanda. A visualização permite comparar a dispersão das previsões, os intervalos de confiança e os níveis de risco associados a cada cenário analisado.
 </p>
 
 <br><br><br><br><br><br>
@@ -157,6 +158,5 @@ A figura abaixo apresenta um exemplo das distribuições probabilísticas gerada
 # 9. Conclusão
 
 <p align="justify">
-A combinação entre Redes Neurais Bayesianas e Normalizing Flow permite construir modelos capazes de representar simultaneamente relações não lineares, incertezas dos parâmetros e distribuições complexas da demanda. Diferentemente do BSTS, cujo foco é explicar o comportamento da série temporal e medir efeitos causais, a abordagem apresentada neste projeto concentra-se na geração de cenários futuros e na quantificação probabilística dos riscos. Dessa forma, o modelo torna-se uma ferramenta valiosa para planejamento operacional, previsão de demanda em larga escala e suporte à tomada de decisão baseada em incerteza.
+A combinação entre Redes Neurais Bayesianas e Normalizing Flow permite construir modelos capazes de representar simultaneamente relações não lineares entre as variáveis de entrada, incertezas dos parâmetros e distribuições complexas da demanda. Em vez de produzir apenas um único valor previsto, a abordagem fornece uma distribuição probabilística completa, permitindo calcular intervalos de confiança, percentis e probabilidades de diferentes cenários. Essas características tornam o modelo uma ferramenta importante para aplicações que exigem previsão sob incerteza e suporte à tomada de decisão baseada em risco.
 </p>
-````
