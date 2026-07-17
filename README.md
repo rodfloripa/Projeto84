@@ -147,7 +147,7 @@ A figura abaixo apresenta um exemplo das distribuições probabilísticas gerada
 <p align="center">
   <img src="https://github.com/rodfloripa/Projeto84/blob/main/download (1).png">
 </p>
-<br><br><br>
+<br>
 <p align="center">
 <b>Figura 1 — Distribuições probabilísticas dos cenários gerados.</b>
 </p>
