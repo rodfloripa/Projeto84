@@ -149,8 +149,15 @@ A figura abaixo apresenta um exemplo das distribuições probabilísticas gerada
 </p>
 <br><br><br>
 <p align="center">
-<b>Figura 1 — Distribuições probabilísticas dos cenários gerados (inserir imagem).</b>
+<b>Figura 1 — Distribuições probabilísticas dos cenários gerados.</b>
 </p>
+
+| Cenário | P10 | P50 | P90 |
+|---------|-----:|-----:|-----:|
+| Base | 146.92 | 196.09 | 243.60 |
+| Otimista | 149.87 | 199.44 | 246.96 |
+| Pessimista | 110.58 | 158.56 | 206.92 |
+
 
 <br><br><br>
 
