@@ -123,10 +123,28 @@ ppc = pm.sample_posterior_predictive(
 
 ---
 
-# 6. Cenários Simulados
+# 6. Configuração dos Cenários
 
 <p align="justify">
-Após o treinamento são gerados diferentes cenários de demanda, como cenário base, otimista e pessimista. Para cada situação são calculados percentis da distribuição prevista, como P10, P50 e P90, permitindo estimar intervalos prováveis de vendas, probabilidades de ruptura de estoque e níveis de risco associados a diferentes estratégias comerciais.
+Após o treinamento da Rede Neural Bayesiana, são criados diferentes cenários alterando apenas as variáveis de entrada do modelo. Como a rede aprendeu a relação entre essas variáveis e a demanda, cada alteração produz uma nova distribuição probabilística das vendas. Dessa forma, é possível avaliar como diferentes condições operacionais impactam a previsão da demanda.
+</p>
+
+| Cenário | Preço | Gasto com Ads | Temperatura | Feriado | Objetivo |
+|---------|:-----:|:-------------:|:-----------:|:--------:|----------|
+| Base | Valor médio | Valor médio | Valor médio | Valor médio | Representar a situação normal de operação. |
+| Otimista | Mantido | Aumentado | Maior | Sim | Simular condições favoráveis para aumento das vendas. |
+| Pessimista | Aumentado | Reduzido | Mantida | Não | Simular condições desfavoráveis para redução da demanda. |
+
+<p align="justify">
+No cenário base, todas as variáveis permanecem próximas de seus valores médios observados durante o treinamento. Esse cenário representa o comportamento esperado da demanda caso nenhuma alteração significativa ocorra nas condições de operação.
+</p>
+
+<p align="justify">
+No cenário otimista, o investimento em publicidade é aumentado, a temperatura é elevada e considera-se a ocorrência de um feriado. Essas modificações tendem a aumentar a demanda prevista pelo modelo, deslocando a distribuição de probabilidades para valores maiores de vendas.
+</p>
+
+<p align="justify">
+No cenário pessimista, o preço do produto é elevado e o investimento em publicidade é reduzido. Essas alterações representam condições menos favoráveis ao consumo, fazendo com que a distribuição prevista das vendas seja deslocada para valores menores e aumentando a probabilidade de ocorrência de baixa demanda.
 </p>
 
 ---
