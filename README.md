@@ -158,6 +158,9 @@ A figura abaixo apresenta um exemplo das distribuições probabilísticas gerada
 | Otimista | 149.87 | 199.44 | 246.96 |
 | Pessimista | 110.58 | 158.56 | 206.92 |
 
+<p align="justify">
+O percentil <b>P10</b> representa um cenário conservador, indicando que existe aproximadamente <b>10% de probabilidade de a demanda ser inferior ao valor apresentado</b>. O <b>P50</b> corresponde à mediana da distribuição, ou seja, existe 50% de probabilidade de a demanda ficar abaixo desse valor e 50% acima. Já o <b>P90</b> representa um cenário otimista, indicando que aproximadamente 90% das previsões ficam abaixo desse valor e apenas 10% o ultrapassam.
+</p>
 
 <br><br><br>
 
