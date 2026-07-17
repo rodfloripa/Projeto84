@@ -163,7 +163,7 @@ A abordagem pode ser aplicada em problemas de previsão de demanda, planejamento
 A figura abaixo apresenta um exemplo das distribuições probabilísticas geradas pelo modelo para diferentes cenários de demanda. A visualização permite comparar a dispersão das previsões, os intervalos de confiança e os níveis de risco associados a cada cenário analisado.
 </p>
 <p align="center">
-  <img src="https://github.com/rodfloripa/Projeto84/blob/main/download (1).png">
+  <img src="https://github.com/rodfloripa/Projeto84/blob/main/fig.png">
 </p>
 <br>
 <p align="center">
